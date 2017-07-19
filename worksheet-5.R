@@ -1,36 +1,45 @@
 ## Getting started
 
 library(dplyr)
-library(...)
-animals <- read.csv(..., na.strings = '') %>%
+library(ggplot2)
+animals <- read.csv('data/animals.csv', na.strings = '') %>%
   filter(!is.na(species_id), !is.na(sex), !is.na(weight))
 
 ## Constructing layered graphics in ggplot
 
-ggplot(...,
-       ...) +
-  ...
+ggplot(data=animals,
+       aes(x=species_id, y=weight)) + geom_point()
+
+ggplot(data = animals,
+       aes(x = species_id, y = weight)) + geom_boxplot()
 
 ggplot(data = animals,
        aes(x = species_id, y = weight)) +
-  ...
+  geom_boxplot() + 
+  geom_point(stat = "summary", 
+             fun.y="mean", 
+             col = "red")
+             
 
 ggplot(data = animals,
-       aes(x = species_id, y = weight)) +
-  geom_boxplot() ...
-  geom_point(...,
-             ...,
-             ...)
-
-ggplot(data = animals,
-       aes(x = species_id, y = weight, ...)) +
+       aes(x = species_id, y = weight, color=species_id)) +
   geom_boxplot() +
   geom_point(stat = 'summary',
              fun.y = 'mean')
 
 ## Exercise 1
 
-...
+
+animals_dm <- filter(animals, species_id == 'DM')
+ggplot(data = animals_dm,
+       aes(x = year, y = weight, color = sex)) +
+  geom_line(stat = 'summary',
+            fun.y = 'mean')
+
+ggplot(data=animals_dm, 
+       aes(x=weight, y=year, color = sex))+
+  geom_line(stat='summary', 
+             fun.y ='mean')
 
 ## Adding a regression line
 
